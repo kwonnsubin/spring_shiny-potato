@@ -24,8 +24,11 @@ public class BoardController {
 	private BoardService service;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void viewListBoard( Model model) {
-		model.addAttribute("boardlist", service.selectList());
+	public ModelAndView viewListBoard( ModelAndView mv) {
+		System.out.println("board list controller!!!!!");
+		mv.addObject("boardlist", service.selectList());
+		mv.setViewName("board/list");
+		return mv;
 	}
 	
 //	@RequestMapping(value = "/board/update", method = RequestMethod.GET)
@@ -44,33 +47,30 @@ public class BoardController {
 	public void viewReadBoard() {
 		
 	}
-//	@RequestMapping(value = "/board/insert", method = RequestMethod.GET)
-	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-	//@GetMapping("/boardinsert")
-//	public ModelAndView viewInsertBoard(
+
+	@GetMapping("/insert")
+	public ModelAndView viewInsertBoard(
 //	public Stromg viewInsertBoard(
-	public void viewInsertBoard(
+//	public void viewInsertBoard(
 			ModelAndView mv
 			, HttpServletRequest req
 			, HttpSession session
 			, BoardVo vo
 			) {
-//		HttpSession session2 = req.getSession();
-//		session2.setAttribute("lgnss", "값");
-//		
-//		ModelAndView mv1 = new ModelAndView();
-//		mv1.setViewName("insert");
-		
-//		mv.addObject("test", "test value");
-//		mv.setViewName("boardinsert");
-//		return mv;
-//		return "boardinsert";
-		return;
+		mv.setViewName("board/insert");
+		return mv;
 	}
-//	@RequestMapping(value = "/board/insert", method = RequestMethod.POST)
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	//@PostMapping("/boardinsert")
-	public ModelAndView doInsertBoard(ModelAndView mv) {
+
+//	@PostMapping("/insert")
+	// TODO
+	@GetMapping("/insertPostTest")
+	public ModelAndView doInsertBoard(ModelAndView mv
+			, BoardVo vo
+			) {
+		vo.setBoardContent("임시내용");
+		vo.setBoardTitle("임시제목");
+		vo.setBoardWriter("user22");
+		int result = service.insert(vo);
 		
 		return mv;
 	}
