@@ -14,36 +14,32 @@ public class BoardDao {
 	private SqlSession sqlSession;
 	
 	public int insert(BoardVo vo) {
-		return sqlSession.insert("boardns.insertid", vo);
+		return sqlSession.insert("boardns.insertid", vo);		
 	}
-	
 	public int update(BoardVo vo) {
-		return sqlSession.update("boardns.updateid", vo);
+		return sqlSession.update("boardns.updateid", vo);		
 	}
-	
 	public int updateReadCount(int boardNum) {
-		return sqlSession.update("boardns.updateReadCount", boardNum);
+		return sqlSession.update("boardns.updateReadCount", boardNum);		
 	}
-	
 	public int updateForReply(int boardNum) {
-		return sqlSession.update("boardns.updateForReply", boardNum);
+		return sqlSession.update("boardns.updateForReply", boardNum);		
 	}
-	
-	
-	public int delete(int boardNum /* BoardVo vo 또는 PK 또는 List<PK> */) {
-		return sqlSession.delete("boardns.deleteid", boardNum);
+	public int delete(int boardNum  /* BoardVo vo 또는 PK 또는 List<PK>*/) {
+		return sqlSession.delete("boardns.insertid", boardNum);		
 	}
-	
 	public BoardVo selectOne(int boardNum /* PK */) {
-		return sqlSession.selectOne("boardns.selectOneid", boardNum);
+		return sqlSession.selectOne("boardns.selectOneid", boardNum);		
 	}
-	
 	public List<BoardVo> selectList() {
-		return sqlSession.selectList("boardns.selectListid");
+		return sqlSession.selectList("boardns.selectListid");		
 	}
-	
 	public int selectOneCount() {
 		return sqlSession.selectOne("boardns.selectOneCount");
 	}
 	
+	/*
+	 * public BoardVo selectList2() { return
+	 * sqlSession.selectOne("boardns.selectListid2"); }
+	 */
 }

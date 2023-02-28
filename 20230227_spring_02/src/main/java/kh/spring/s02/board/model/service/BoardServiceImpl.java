@@ -9,8 +9,8 @@ import kh.spring.s02.board.model.dao.BoardDao;
 import kh.spring.s02.board.model.vo.BoardVo;
 
 @Service
-public class BoardServiceImp1 implements BoardService{
-
+public class BoardServiceImpl implements BoardService {
+	
 	@Autowired
 	private BoardDao dao;
 	
@@ -33,12 +33,12 @@ public class BoardServiceImp1 implements BoardService{
 	public BoardVo selectOne(int boardNum, String writer) {
 		BoardVo result = dao.selectOne(boardNum);
 		if(!result.getBoardWriter().equals(writer)) {
-			dao.updateReadCount(boardNum);
+			dao.updateReadCount(boardNum);	
 		}
 		return result;
 //		if(dao.updateReadCount(boardNum)>0) {
-//			return dao.selectOne(boardNum);			
-//		} else {
+//			return dao.selectOne(boardNum);
+//		}else {
 //			return null;
 //		}
 	}
@@ -52,5 +52,5 @@ public class BoardServiceImp1 implements BoardService{
 	public int selectOneCount() {
 		return dao.selectOneCount();
 	}
-	
+
 }
