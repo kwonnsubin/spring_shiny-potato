@@ -3,6 +3,7 @@ package kh.spring.s02.board.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import kh.spring.s02.board.model.dao.BoardDao;
@@ -14,8 +15,19 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDao dao;
 	
+//	@Autowired
+//	@Qualifier
+//	private MemberDao mdao;
+//	@Autowired
+//	private ProductDao pdao;
+	
+	
 	@Override
 	public int insert(BoardVo vo) {
+		if(vo.getBoardNum() != 0) {
+			// 답글   (원글은 0)
+			dao.updateForReply(vo.getBoardNum());
+		}		
 		return dao.insert(vo);
 	}
 
@@ -51,6 +63,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int selectOneCount() {
 		return dao.selectOneCount();
+	}
+
+	@Override
+	public List<BoardVo> selectList(int currentPage, int limit) {
+		return dao.selectList(currentPage,limit);
 	}
 
 }
