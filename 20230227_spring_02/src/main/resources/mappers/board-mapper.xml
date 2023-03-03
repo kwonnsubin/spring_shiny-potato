@@ -27,7 +27,7 @@
 </select>
 
 
-<insert id="insertid" parameterType="kh.spring.s02.board.model.vo.BoardVo">
+<insert id="insertid" parameterType="bvo">
 	insert into board values
 	(
 		(select NVL(MAX(BOARD_NUM), 0)+1 from board)
@@ -89,7 +89,7 @@
 	delete from board where board_Num = #{boardNum}
 </delete>
 <!-- <select id="selectOneid" resultMap="bvoMap"> -->
-<select id="selectOneid" resultType="kh.spring.s02.board.model.vo.BoardVo">
+<select id="selectOneid" resultType="bvo">
 	select * from board where board_Num = #{boardNum}
 </select>
 <select id="selectListid" resultMap="bvoMap">
@@ -138,7 +138,7 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 </select>
 
 
- 
+   
 <delete id="tempForeachDelete">
 	delete from board
 	<where>
