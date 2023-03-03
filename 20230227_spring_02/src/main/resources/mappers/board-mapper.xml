@@ -92,16 +92,17 @@
 <select id="selectOneid" resultType="kh.spring.s02.board.model.vo.BoardVo">
 	select * from board where board_Num = #{boardNum}
 </select>
-<!-- <select id="selectListid" resultMap="bvoMap"> -->
-<select id="selectListid" resultType="bvo">
+<select id="selectListid" resultMap="bvoMap">
+<!--<select id="selectListid" resultType="bvo"> -->
 select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT 
                             , BOARD_ORIGINAL_FILENAME, BOARD_RENAME_FILENAME,BOARD_DATE 
                             , BOARD_LEVEL, BOARD_REF, BOARD_REPLY_SEQ,BOARD_READCOUNT 
                 from board 
 		<trim prefix="where" prefixOverrides="AND|OR">
 		<if test="searchWord != null and searchWord neq ''">
-			title like #{searchWord}
-			or content like #{searchWord}
+			BOARD_TITLE like'%'||#{searchWord}||'%'
+			or BOARD_CONTENT like '%'||#{searchWord}||'%'
+			or BOARD_WRITER like '%'||#{searchWord}||'%'
 		</if>
 		</trim>
                 order by board_ref desc, board_reply_seq asc
@@ -110,8 +111,9 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 	select count(*) cnt from board
 		<trim prefix="where" prefixOverrides="AND|OR">
 		<if test="searchWord != null and searchWord neq ''">
-			title like #{searchWord}
-			or content like #{searchWord}
+			BOARD_TITLE like'%'||#{searchWord}||'%'
+			or BOARD_CONTENT like '%'||#{searchWord}||'%'
+			or BOARD_WRITER like '%'||#{searchWord}||'%'
 		</if>
 		</trim>
 </select>
@@ -140,7 +142,9 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 <delete id="tempForeachDelete">
 	delete from board
 	<where>
+<![CDATA[
 		1<>1 or
+]]>
 		<foreach collection="list" item="bnum" open="board_num in (" close=")" separator=",">
 		#{bnum}
 		</foreach>

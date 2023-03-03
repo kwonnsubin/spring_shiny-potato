@@ -37,15 +37,27 @@ public class BoardDao {
 	}
 	public List<BoardVo> selectList() {
 		return aa.selectList("boardns.selectListid");		
-	}
+	}	
+	
 	public List<BoardVo> selectList(int currentPage, int limit) {
 //		int offset =  (currentPage-1)*limit;		
 //		RowBounds rb = new RowBounds(offset, limit);
 //		return aa.selectList("boardns.selectListid", null, rb);		
-		return aa.selectList("boardns.selectListid", null, new RowBounds((currentPage-1)*limit,limit));		
-	}
+		return aa.selectList("boardns.selectListid", new RowBounds((currentPage-1)*limit,limit)); // 검색도 하면서 5개씩 읽어나온다. 	
+	} 
+	
+	public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
+//		int offset =  (currentPage-1)*limit;		
+//		RowBounds rb = new RowBounds(offset, limit);
+//		return aa.selectList("boardns.selectListid", null, rb);		
+		return aa.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage-1)*limit,limit)); // 검색도 하면서 5개씩 읽어나온다. 	
+	} 
 	public int selectOneCount() {
 		return aa.selectOne("boardns.selectOneCount");
+	}
+	
+	public int selectOneCount(String searchWord) {
+		return aa.selectOne("boardns.selectOneCount", searchWord);
 	}
 //	public List<HashMap<String, Object>> tempSelect() {
 	public List<BoardVo> tempSelect() {
