@@ -19,7 +19,7 @@
 <resultMap type="bvo" id="rsMap" >
 	<result column="sdate" property="boardDate"/>
 	<result column="board_num" property="boardRef"/>
-</resultMap> 
+</resultMap>
 
 <!--  resultType="bvo" -->
 <select id="tempSelect" resultMap="rsMap">

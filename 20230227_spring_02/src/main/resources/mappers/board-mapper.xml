@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardns">
 
-<resultMap type="bvo" id="bvoMap">  
+<resultMap type="bvo" id="bvoMap">
  	<id column="board_Num" property="boardNum"/>
 	<result column="board_Title" property="boardTitle"/>
 	<result column="board_Writer" property="boardWriter"/>
@@ -19,7 +19,7 @@
 <resultMap type="bvo" id="rsMap" >
 	<result column="sdate" property="boardDate"/>
 	<result column="board_num" property="boardRef"/>
-</resultMap>
+</resultMap> 
 
 <!--  resultType="bvo" -->
 <select id="tempSelect" resultMap="rsMap">
@@ -138,7 +138,7 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 </select>
 
 
-   
+ 
 <delete id="tempForeachDelete">
 	delete from board
 	<where>

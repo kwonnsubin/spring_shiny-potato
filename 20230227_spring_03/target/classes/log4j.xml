@@ -11,7 +11,7 @@
 	</appender>
 <!-- file에 저장하기 -->
 	<!-- Application Loggers -->
-	<logger name="kh.spring.s02">
+	<logger name="kh.spring.s03">
 		<level value="info" />
 	</logger>
 	<!-- 3rdparty Loggers -->
