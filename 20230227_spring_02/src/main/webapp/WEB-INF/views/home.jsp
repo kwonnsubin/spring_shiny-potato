@@ -5,6 +5,19 @@
 	<title>Home</title>
 </head>
 <body>
+<script>
+	var msg = "${alertMsg}"
+	// false : "", null, NAN
+	if(msg){
+		alert(msg);
+	}
+	
+	var msg2 = "${alertMsg}"
+		// false : "", null, NAN
+		if(msg){
+			alert(msg);
+		}
+</script>
 <h1>
 	Hello world!  
 </h1>

@@ -52,6 +52,16 @@ public class BoardDao {
 //		return aa.selectList("boardns.selectListid", null, rb);		
 		return aa.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage-1)*limit,limit)); // 검색도 하면서 5개씩 읽어나온다. 	
 	} 
+	
+	public List<BoardVo> selectReplyList(int boardNum) { // 글의 답글 전체읽기
+		return aa.selectList("boardns.selectReplyList", boardNum);
+	}
+	public List<BoardVo> selectReplyList(int boardNum, int currentPage, int limit) {
+		return aa.selectList("boardns.selectReplyList", boardNum, currentPage, limit);
+		// paging처리하여 읽기+검색하여 읽기
+	}
+	
+
 	public int selectOneCount() {
 		return aa.selectOne("boardns.selectOneCount");
 	}

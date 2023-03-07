@@ -45,7 +45,7 @@ public class AdviceLog {
 		returnObj = pjp.proceed();
 		stopwatch.stop();
 		
-		logger.info("▶Ctrl Return["+stopwatch.getTotalTimeMillis()+"]: "+ returnObj);
+		logger.info("  ▶Ctrl Return["+stopwatch.getTotalTimeMillis()+"]: "+ returnObj);
 		return returnObj;
 //		System.out.println("컨트롤러 모든 메소드가 호출되면 해당메소드(타겟메소드)가 실행되기 "
 //				+ " 전 Before 바로 이 메소드(beforeControllerPointCut)를 실행하고  "
