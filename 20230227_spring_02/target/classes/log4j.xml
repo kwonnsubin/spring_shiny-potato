@@ -9,8 +9,7 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	<!-- file에 저장하기 -->
-
+<!-- file에 저장하기 -->
 	<!-- Application Loggers -->
 	<logger name="kh.spring.s02">
 		<level value="info" />
@@ -32,6 +31,7 @@
 		<level value="info" />
 	</logger>
 	
+	<!-- SQL Logger -->
     <logger name="jdbc.sqltiming" additivity="false">
         <level value="warn"/>
         <appender-ref ref="console"/>
