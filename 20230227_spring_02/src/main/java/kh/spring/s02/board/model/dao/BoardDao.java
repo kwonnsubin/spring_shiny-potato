@@ -24,7 +24,7 @@ public class BoardDao {
 		return aa.update("boardns.updateid", vo);		
 	}
 	public int updateReadCount(int boardNum) {
-		return aa.update("boardns.updateReadCount", boardNum);	
+		return aa.update("boardns.updateReadCount", boardNum);		
 	}
 	public int updateForReply(int boardNum) {
 		return aa.update("boardns.updateForReply", boardNum);		
@@ -37,35 +37,25 @@ public class BoardDao {
 	}
 	public List<BoardVo> selectList() {
 		return aa.selectList("boardns.selectListid");		
-	}	
-	
+	}
 	public List<BoardVo> selectList(int currentPage, int limit) {
 //		int offset =  (currentPage-1)*limit;		
 //		RowBounds rb = new RowBounds(offset, limit);
 //		return aa.selectList("boardns.selectListid", null, rb);		
-		return aa.selectList("boardns.selectListid", new RowBounds((currentPage-1)*limit,limit)); // 검색도 하면서 5개씩 읽어나온다. 	
-	} 
-	
+		return aa.selectList("boardns.selectListid", null, new RowBounds((currentPage-1)*limit,limit));		
+	}
 	public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
-//		int offset =  (currentPage-1)*limit;		
-//		RowBounds rb = new RowBounds(offset, limit);
-//		return aa.selectList("boardns.selectListid", null, rb);		
-		return aa.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage-1)*limit,limit)); // 검색도 하면서 5개씩 읽어나온다. 	
-	} 
+		return aa.selectList("boardns.selectListid", searchWord, new RowBounds((currentPage-1)*limit,limit));		
+	}
 	
-	public List<BoardVo> selectReplyList(int boardNum) { // 글의 답글 전체읽기
+	public List<BoardVo> selectReplyList(int boardNum) {
 		return aa.selectList("boardns.selectReplyList", boardNum);
 	}
-	public List<BoardVo> selectReplyList(int boardNum, int currentPage, int limit) {
-		return aa.selectList("boardns.selectReplyList", boardNum, currentPage, limit);
-		// paging처리하여 읽기+검색하여 읽기
-	}
 	
-
+	
 	public int selectOneCount() {
 		return aa.selectOne("boardns.selectOneCount");
 	}
-	
 	public int selectOneCount(String searchWord) {
 		return aa.selectOne("boardns.selectOneCount", searchWord);
 	}

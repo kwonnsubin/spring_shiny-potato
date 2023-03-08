@@ -13,25 +13,26 @@ public class MemberDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int insert(MemberVo vo) throws Exception{
+	public int insert(MemberVo vo) throws Exception {
 		int result = -1;
 //		try {
-			sqlSession.insert("memberMapper.insertId", vo);			
-//		} catch (Exception e) {
+			result = sqlSession.insert("memberMapper.insertId", vo);
+//		}
+//		catch (Exception e) {
 //			e.printStackTrace();
 //		}
 		return result;
 	}
-	public int update(MemberVo vo) throws Exception {
+	public int update(MemberVo vo) {
 		return sqlSession.update("memberMapper.updateId", vo);
 	}
-	public int delete(String id) throws Exception {
+	public int delete(String id) {
 		return sqlSession.delete("memberMapper.deleteId", id);
 	}
-	public MemberVo selectOne(String id) throws Exception {
+	public MemberVo selectOne(String id) {
 		return sqlSession.selectOne("memberMapper.selectOneId", id);
 	}
-	public List<MemberVo> selectList() throws Exception {
+	public List<MemberVo> selectList() {
 		return sqlSession.selectList("memberMapper.selectListId");
 	}
 }

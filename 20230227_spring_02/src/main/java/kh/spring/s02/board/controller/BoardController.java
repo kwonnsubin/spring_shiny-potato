@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 import kh.spring.s02.board.model.service.BoardService;
 import kh.spring.s02.board.model.vo.BoardVo;
 
@@ -101,18 +103,19 @@ public class BoardController {
 		int boardNum = 10;
 		int result = service.delete(boardNum);
 	}
+	
 	// 글 상세 읽기 화면
 	@GetMapping("/read")
 	public ModelAndView viewReadBoard(
 			ModelAndView mv
-		  , @RequestParam("boardNum") int boardNum			
+			, @RequestParam("boardNum") int boardNum
 			) {
+		//TODO
 		String writer = "user22";
 		
 		BoardVo vo = service.selectOne(boardNum, writer);
 		mv.addObject("board", vo);
 		
-		// 댓글 리스트
 		List<BoardVo> replyList = service.selectReplyList(boardNum);
 		mv.addObject("replyList", replyList);
 		
@@ -179,13 +182,22 @@ public class BoardController {
 	public String insertReplyAjax(
 			BoardVo vo
 			) {
-		int boardNum = 6;
-		vo.setBoardNum(boardNum);
-		
-		vo.setBoardContent("임시6답내용");
-		vo.setBoardTitle("임시6답제목");
+		System.out.println("######");
+		System.out.println(vo);
+//		int boardNum = 6;
+//		vo.setBoardNum(boardNum);
+//		
+//		vo.setBoardContent("임시6답내용");
+//		vo.setBoardTitle("임시6답제목");
 		vo.setBoardWriter("user22");
-		return "ok";
+		
+		// 답글 작성
+		service.insert(vo);
+		// 연관 답글들 조회해서 ajax로 return해야함.
+		List<BoardVo> replyList = service.selectReplyList(vo.getBoardNum());
+		// ajax는 mv에 실어갈수 없음. //mv.addObject("replyList", replyList);
+		
+		return new Gson().toJson(replyList);
 	}
 	
 //	@RequestMapping(value = "/boardinsert")

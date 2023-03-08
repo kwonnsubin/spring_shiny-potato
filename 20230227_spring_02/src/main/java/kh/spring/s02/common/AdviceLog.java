@@ -34,6 +34,9 @@ public class AdviceLog {
 	@Around("controllerPointCut()")
 	public Object aroundControllerPointCut(ProceedingJoinPoint pjp) throws Throwable{
 		Object returnObj = null;
+		// pjp.getThis() 클래스명
+		// pjp.getSignature().getName()  메소드명
+		logger.info("▶Ctrl: "+ pjp.getThis()+ " "+pjp.getSignature().getName());
 		Object[] args = pjp.getArgs();
 		for(int i=0; i<args.length; i++) {
 			logger.info("▶args["+i+"]: "+ args[i]);
@@ -45,7 +48,7 @@ public class AdviceLog {
 		returnObj = pjp.proceed();
 		stopwatch.stop();
 		
-		logger.info("  ▶Ctrl Return["+stopwatch.getTotalTimeMillis()+"]: "+ returnObj);
+		logger.info("▶Ctrl Return["+stopwatch.getTotalTimeMillis()+"]: "+ returnObj);
 		return returnObj;
 //		System.out.println("컨트롤러 모든 메소드가 호출되면 해당메소드(타겟메소드)가 실행되기 "
 //				+ " 전 Before 바로 이 메소드(beforeControllerPointCut)를 실행하고  "
@@ -54,6 +57,7 @@ public class AdviceLog {
 	@Around("serviceImplPointCut()")
 	public Object aroundServiceImplPointCut(ProceedingJoinPoint pjp) throws Throwable {
 		Object returnObj = null;
+		logger.info("▶▶Srvc: "+ pjp.getThis()+" "+ pjp.getSignature().getName());
 		Object[] args = pjp.getArgs();
 		for(int i=0; i<args.length; i++) {
 			logger.info("▶▶args["+i+"]: "+ args[i]);
@@ -70,6 +74,7 @@ public class AdviceLog {
 	@Around("daoPointCut()")
 	public Object aroundDaoPointCut(ProceedingJoinPoint pjp) throws Throwable {
 		Object returnObj = null;
+		logger.info("▶▶▶Dao: "+ pjp.getThis()+ " "+pjp.getSignature().getName());
 		Object[] args = pjp.getArgs();
 		for(int i=0; i<args.length; i++) {
 			logger.info("▶▶▶args["+i+"]: "+ args[i]);

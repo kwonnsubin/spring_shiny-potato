@@ -16,18 +16,7 @@
 	<result column="board_Readcount" property="boardReadcount"/>
 </resultMap>
 
-<resultMap type="bvo" id="rsMap" >
-	<result column="sdate" property="boardDate"/>
-	<result column="board_num" property="boardRef"/>
-</resultMap> 
-
-<!--  resultType="bvo" -->
-<select id="tempSelect" resultMap="rsMap">
-	select sysdate as sdate, board_num from board
-</select>
-
-
-<insert id="insertid" parameterType="bvo">
+<insert id="insertid" parameterType="kh.spring.s02.board.model.vo.BoardVo">
 	insert into board values
 	(
 		(select NVL(MAX(BOARD_NUM), 0)+1 from board)
@@ -88,24 +77,34 @@
 <delete id="deleteid">
 	delete from board where board_Num = #{boardNum}
 </delete>
-<!-- <select id="selectOneid" resultMap="bvoMap"> -->
-<select id="selectOneid" resultType="bvo">
+<select id="selectOneid" resultMap="bvoMap"> 
+<!-- <select id="selectOneid" resultType="kh.spring.s02.board.model.vo.BoardVo"> -->
 	select * from board where board_Num = #{boardNum}
 </select>
-<select id="selectListid" resultMap="bvoMap">
-<!--<select id="selectListid" resultType="bvo"> -->
+<select id="selectListid" resultMap="bvoMap"> 
+<!-- <select id="selectListid" resultType="bvo"> -->
 select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT 
                             , BOARD_ORIGINAL_FILENAME, BOARD_RENAME_FILENAME,BOARD_DATE 
                             , BOARD_LEVEL, BOARD_REF, BOARD_REPLY_SEQ,BOARD_READCOUNT 
                 from board 
 		<trim prefix="where" prefixOverrides="AND|OR">
 		<if test="searchWord != null and searchWord neq ''">
-			BOARD_TITLE like'%'||#{searchWord}||'%'
+			BOARD_TITLE like '%'||#{searchWord}||'%'
 			or BOARD_CONTENT like '%'||#{searchWord}||'%'
 			or BOARD_WRITER like '%'||#{searchWord}||'%'
 		</if>
 		</trim>
                 order by board_ref desc, board_reply_seq asc
+</select>
+<select id="selectOneCount" resultType="_int">
+	select count(*) cnt from board
+		<trim prefix="where" prefixOverrides="AND|OR">
+		<if test="searchWord != null and searchWord neq ''">
+			BOARD_TITLE like '%'||#{searchWord}||'%'
+			or BOARD_CONTENT like '%'||#{searchWord}||'%'
+			or BOARD_WRITER like '%'||#{searchWord}||'%'
+		</if>
+		</trim>
 </select>
 <select id="selectReplyList" resultMap="bvoMap">
 	select * from board 
@@ -114,31 +113,19 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 			and BOARD_REPLY_SEQ > (select BOARD_REPLY_SEQ from board where board_Num=#{board_Num} )
 		order by BOARD_REPLY_SEQ asc
 </select>
-<select id="selectOneCount" resultType="_int">
-	select count(*) cnt from board
-		<trim prefix="where" prefixOverrides="AND|OR">
-		<if test="searchWord != null and searchWord neq ''">
-			BOARD_TITLE like'%'||#{searchWord}||'%'
-			or BOARD_CONTENT like '%'||#{searchWord}||'%'
-			or BOARD_WRITER like '%'||#{searchWord}||'%'
-		</if>
-		</trim>
-</select>
-<!-- 
-<select id="selectListid2">
-	select * from board
-</select>
- -->
- 
-<select id="tempCallableSelect" statementType="CALLABLE" parameterType="bvo" resultType="bvo">
+
+<select id="tempCallableSelect" 
+		statementType="CALLABLE"
+		parameterType="bvo" resultType="bvo">
 {	CALL p1   }
 </select>
  
 <select id="tempTrimSelect">
 	select * from board
 		<trim prefix="where" prefixOverrides="AND|OR">
+			1 = 1 and
 		<if test="searchWord != null and searchWord neq ''">
-			title like #{searchWord}
+			and title like #{searchWord}
 			or content like #{searchWord}
 		</if>
 		</trim>
@@ -157,19 +144,4 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 		</foreach>
 	</where>
 </delete> 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 </mapper>

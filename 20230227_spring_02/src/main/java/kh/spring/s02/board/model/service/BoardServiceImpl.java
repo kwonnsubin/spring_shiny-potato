@@ -61,15 +61,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public int selectOneCount() {
+		return dao.selectOneCount();
+	}
+	@Override
 	public int selectOneCount(String searchWord) {
 		return dao.selectOneCount(searchWord);
 	}
 	
-	@Override
-	public int selectOneCount() {
-		return dao.selectOneCount();
-	}
-
 	@Override
 	public List<BoardVo> selectList(int currentPage, int limit) {
 		return dao.selectList(currentPage,limit);
@@ -77,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
-		return dao.selectList(currentPage,limit,searchWord);
+		return dao.selectList(currentPage, limit, searchWord);
 	}
 
 	@Override
@@ -87,8 +86,10 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVo> selectReplyList(int boardNum, int currentPage, int limit) {
-		return dao.selectReplyList(boardNum, currentPage, limit);
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 
 
 }

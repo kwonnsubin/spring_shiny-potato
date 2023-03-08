@@ -4,21 +4,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberVo {
-//	desc Test_Member;
-//	------ -------- ------------ 
+
+	
 //	ID     NOT NULL VARCHAR2(15) 
 //	PASSWD NOT NULL VARCHAR2(15) 
 //	NAME   NOT NULL VARCHAR2(20) 
 //	EMAIL           VARCHAR2(30)
-	// 유효성체크 @Vaildated
-	private String id;
-	private String passwd;
-	private String name;
-	private String email;
+	
+	String id;
+	String passwd;
+	String name;
+	String email;
+	
 	
 	public MemberVo() {
 		super();
 	}
+	
+	
+	
 	public MemberVo(String id, String passwd, String name, String email) {
 		super();
 		this.id = id;
@@ -26,6 +30,9 @@ public class MemberVo {
 		this.name = name;
 		this.email = email;
 	}
+
+
+
 	@Override
 	public String toString() {
 		return "MemberVo [id=" + id + ", passwd=" + passwd + ", name=" + name + ", email=" + email + "]";
@@ -54,5 +61,8 @@ public class MemberVo {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	
+	
 	
 }

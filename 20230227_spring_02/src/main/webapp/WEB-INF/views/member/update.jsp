@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원정보수정</title>
+<title>Insert title here</title>
 </head>
 <body>
 <h1>회원정보수정</h1>
