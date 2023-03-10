@@ -24,7 +24,6 @@ import kh.spring.s02.board.model.service.BoardService;
 import kh.spring.s02.board.model.vo.BoardVo;
 
 @Controller
-//@WebServlet("/boardinsert")
 @RequestMapping("/board")
 public class BoardController {
 	
