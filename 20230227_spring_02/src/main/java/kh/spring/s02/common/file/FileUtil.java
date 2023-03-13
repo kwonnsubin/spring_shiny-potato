@@ -41,6 +41,8 @@ public class FileUtil {
 		Map<String, String> result = null;
 		String renameFilePath = null;
 		if(multi !=null && !multi.equals("")) {  // required=false이기때문에 null이 들어올수도있다.
+			result = new HashMap
+			
 			String originalFileName = multi.getOriginalFilename();
 			// file을 server에 특정 위치(저장할 폴더)에 저장
 			String webServerRoot = request.getSession().getServletContext().getRealPath("");
@@ -59,6 +61,9 @@ public class FileUtil {
 			// UUID
 			// String renameByUUID = UUID.randomUUID().toString() + "_" + originalFileName;
 				multi.transferTo(new File(savePath + "\\" + renameByUUID ));
+				
+				result.put("original", orginalFileName);
+				result.put("original", orginalFileName);				
 		}
 		return result;
 	}
