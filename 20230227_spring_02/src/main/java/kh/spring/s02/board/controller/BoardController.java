@@ -1,8 +1,11 @@
 package kh.spring.s02.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
 import kh.spring.s02.board.model.service.BoardService;
 import kh.spring.s02.board.model.vo.BoardVo;
+import kh.spring.s02.common.file.FileUtil;
 
 @Controller
 @RequestMapping("/board")
@@ -32,6 +38,8 @@ public class BoardController {
 	
 	private final static int BOARD_LIMIT = 5;  // 한 페이지에 보여줄 게시글 갯수
 	private final static int PAGE_LIMIT = 3; // 한 화면에 출력할 게시판 페이지 수
+
+	
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView viewListBoard( ModelAndView mv) {
@@ -44,7 +52,7 @@ public class BoardController {
 		String searchWord = "답";
 		
 		// TODO
-		int currentPage = 2; // 현재 페이지
+		int currentPage = 1; // 현재 페이지
 		int totalCnt = service.selectOneCount(); // 총 글 갯수
 		int totalPage = (totalCnt%BOARD_LIMIT==0)? // 총 페이지 수 -> 나눠서 나머지가 0이면
 				(totalCnt/BOARD_LIMIT) : 
@@ -135,15 +143,50 @@ public class BoardController {
 	}
 	
 	// 원글 작성 
-//	@PostMapping("/insert")
-	// TODO
-	@GetMapping("/insertPostTest")
-	public ModelAndView doInsertBoard(ModelAndView mv
+	@PostMapping("/insert")
+	public ModelAndView doInsertBoard(
+			MultipartHttpServletRequest multiReq,
+			ModelAndView mv
+			, @RequestParam(name = "report", required = false) MultipartFile multi
+			, HttpServletRequest request
 			, BoardVo vo
 			) {
-		vo.setBoardContent("임시내용");
-		vo.setBoardTitle("임시제목");
-		vo.setBoardWriter("user22");
+		//System.out.println("file org name: "+ multi.getOriginalFilename()); // 오리지널 파일 이름
+		new FileUtil().saveFile(multi, request, null);
+		if(multi !=null && !multi.equals("")) {  // required=false이기때문에 null이 들어올수도있다.
+			String originalFileName = multi.getOriginalFilename();
+			// file을 server에 특정 위치(저장할 폴더)에 저장
+			String webServerRoot = request.getSession().getServletContext().getRealPath("");
+			System.out.println(webServerRoot);
+			
+			// request.getSession().getServletContext().getRealPath("resources");
+			String savePath = webServerRoot + "\\resources\\uploadfiles";
+			// 저장할 폴더가 안만들어져 있다면 만들어줘야함.
+			File folder = new File(savePath); // 파일형태로 만들어주기
+			if(!folder.exists()) { 	// 존재하지 않는다면
+				folder.mkdirs(); // 전체적으로 없는 폴더는 싹다 만들어줌.
+			}
+			// 파일을  savePath 위치에 저장
+			// 시간을 활용한 rename
+			String renameByTime = System.currentTimeMillis() + "_" + originalFileName;
+			// UUID
+			String renameByUUID = UUID.randomUUID().toString() + "_" + originalFileName;
+			
+			String renameFilePath = savePath + "\\" + renameByUUID;
+			System.out.println("rename file: " + renameFilePath);
+			try {
+				multi.transferTo(new File(savePath + "\\" + renameByUUID ));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("file saved name:"+ multi.getName()); // 저장된 파일 이름
+			vo.setBoardOriginalFilename(originalFileName); // a.png
+			vo.setBoardOriginalFilename(renameByUUID); // uuid_a.png
+		}
+		
+		vo.setBoardWriter("user22"); //TODO
 		int result = service.insert(vo);
 		return mv;
 	}
