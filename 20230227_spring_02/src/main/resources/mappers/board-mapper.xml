@@ -113,6 +113,7 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 			and BOARD_REPLY_SEQ > (select BOARD_REPLY_SEQ from board where board_Num=#{board_Num} )
 		order by BOARD_REPLY_SEQ asc
 </select>
+ 
 
 <select id="tempCallableSelect" 
 		statementType="CALLABLE"
@@ -144,4 +145,5 @@ select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT
 		</foreach>
 	</where>
 </delete> 
+
 </mapper>

@@ -146,47 +146,22 @@ public class BoardController {
 	@PostMapping("/insert")
 	public ModelAndView doInsertBoard(
 			MultipartHttpServletRequest multiReq,
-			ModelAndView mv
-			, @RequestParam(name = "report", required = false) MultipartFile multi
+			@RequestParam(name = "report", required = false) MultipartFile multi // required=false이기때문에 null이 들어올수도있다.
 			, HttpServletRequest request
+			,ModelAndView mv
 			, BoardVo vo
 			) {
-		//System.out.println("file org name: "+ multi.getOriginalFilename()); // 오리지널 파일 이름
-		new FileUtil().saveFile(multi, request, null);
-		if(multi !=null && !multi.equals("")) {  // required=false이기때문에 null이 들어올수도있다.
-			String originalFileName = multi.getOriginalFilename();
-			// file을 server에 특정 위치(저장할 폴더)에 저장
-			String webServerRoot = request.getSession().getServletContext().getRealPath("");
-			System.out.println(webServerRoot);
-			
-			// request.getSession().getServletContext().getRealPath("resources");
-			String savePath = webServerRoot + "\\resources\\uploadfiles";
-			// 저장할 폴더가 안만들어져 있다면 만들어줘야함.
-			File folder = new File(savePath); // 파일형태로 만들어주기
-			if(!folder.exists()) { 	// 존재하지 않는다면
-				folder.mkdirs(); // 전체적으로 없는 폴더는 싹다 만들어줌.
-			}
-			// 파일을  savePath 위치에 저장
-			// 시간을 활용한 rename
-			String renameByTime = System.currentTimeMillis() + "_" + originalFileName;
-			// UUID
-			String renameByUUID = UUID.randomUUID().toString() + "_" + originalFileName;
-			
-			String renameFilePath = savePath + "\\" + renameByUUID;
-			System.out.println("rename file: " + renameFilePath);
-			try {
-				multi.transferTo(new File(savePath + "\\" + renameByUUID ));
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.out.println("file saved name:"+ multi.getName()); // 저장된 파일 이름
-			vo.setBoardOriginalFilename(originalFileName); // a.png
-			vo.setBoardOriginalFilename(renameByUUID); // uuid_a.png
+		Map<String, String> filePath;
+		List<Map<String, String>> fileListPath;
+		try {
+			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
+			filePath = new FileUtil().saveFile(multi, request, null);
+			vo.setBoardOriginalFilename(filePath.get("original"));
+			vo.setBoardRenameFilename(filePath.get("rename"));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		vo.setBoardWriter("user22"); //TODO
+		vo.setBoardWriter("user22");  //TODO
 		int result = service.insert(vo);
 		return mv;
 	}
@@ -223,7 +198,13 @@ public class BoardController {
 	@ResponseBody
 	public String insertReplyAjax(
 			BoardVo vo
+			, MultipartFile report // name을 같게 작성해주면 requestParam을 따로 안적어줘도 데이터가 넘어온다.
 			) {
+		if(report !=null) {
+			System.out.println(report.getOriginalFilename());
+		} else {
+			System.out.println("파일없음");
+		}
 		System.out.println("######");
 		System.out.println(vo);
 //		int boardNum = 6;
@@ -248,5 +229,7 @@ public class BoardController {
 
 		return mv;
 	}
+	
+	//@ExceptionHandler
 	
 }

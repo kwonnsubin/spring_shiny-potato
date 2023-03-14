@@ -22,11 +22,12 @@
 	<img src="${cpath }${uploadpath}${board.boardRenameFilename}">
 	</div>
 	
-	<form id="frmReply">
+	<form id="frmReply" enctype="multipart/form-data">
 	<fieldset>
 	 	<legend>답글작성</legend>
 		<div>제목<input type="text" name="boardTitle"></div>
 		<div>내용<input type="text" name="boardContent"></div>
+		<div>파일<input type="file" name="report"></div>
 		<input type="hidden" name="boardNum" value="${board.boardNum }">
 		<button type="button" class="btn reply">답글작성</button>
 		<!-- <button type="reset">초기화</button> -->
@@ -65,13 +66,15 @@
 		console.log(this);  // this (DOM)
 		console.log($(this));  // this를 jquery 형태로 변형
 		//$(this).parents("form")
-		console.log($("#frmReply").serialize());
+		//console.log($("#frmReply").serialize());
+		//file포함되어있는 경우 serialize()로 데이터 전달 할 수 없음. contentType:"multipart/form-data" 적용안됨.
+		let formData = new FormData(frmReply);
+		
 		$.ajax({ 
 			url: "<%=request.getContextPath()%>/board/insertReplyAjax"
 			, type: "post"
-			//contentType:
+			, contentType:"multipart/form-data" // 들고가는 데이터에 타입을 지정
 			, data: $("#frmReply").serialize()   // QueryString // js object
-			
 			, dataType:"json"   // success에 들어오는 데이터가 json 모양일것이고 이것을 js object 로 변형해서 result에 실어줌.
 			, success: function(result){
 				console.log(result);
