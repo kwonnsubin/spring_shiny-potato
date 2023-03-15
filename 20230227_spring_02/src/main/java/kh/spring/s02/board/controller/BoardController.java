@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +37,10 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService service;
+	
+	@Autowired
+	@Qualifier("fileUtil")
+	private FileUtil fileUtil;
 	
 	private final static int BOARD_LIMIT = 5;  // 한 페이지에 보여줄 게시글 갯수
 	private final static int PAGE_LIMIT = 3; // 한 화면에 출력할 게시판 페이지 수
@@ -111,11 +117,19 @@ public class BoardController {
 		int result = service.delete(boardNum);
 	}
 	
+	// URL
+	// 1. /board/read?boardNum=27&replyPage=3
+		// location.href="board/read?boardNum=${elboardnum}&replyPage=${elreplyPage}"
+	// 2. /board/27/3
+		// location.href="board/read/27/3"
+	
 	// 글 상세 읽기 화면
-	@GetMapping("/read")
+	@GetMapping("/read/{boardNum}/{replyPage}") // {boardNum}에서 꺼낸 값을 인지해야 한다.
 	public ModelAndView viewReadBoard(
 			ModelAndView mv
-			, @RequestParam("boardNum") int boardNum
+			, @PathVariable int replyPage // 
+			, @PathVariable int boardNum // 
+			//, @RequestParam("boardNum") int boardNum
 			) {
 		//TODO
 		String writer = "user22";
@@ -154,8 +168,8 @@ public class BoardController {
 		Map<String, String> filePath;
 		List<Map<String, String>> fileListPath;
 		try {
-			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
-			filePath = new FileUtil().saveFile(multi, request, null);
+			fileListPath = fileUtil.saveFileList(multiReq, request, null);
+			filePath = fileUtil.saveFile(multi, request, null);
 			vo.setBoardOriginalFilename(filePath.get("original"));
 			vo.setBoardRenameFilename(filePath.get("rename"));
 		} catch (Exception e) {

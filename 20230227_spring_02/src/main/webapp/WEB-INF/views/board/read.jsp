@@ -77,6 +77,7 @@
 		$.ajax({ 
 			url: "<%=request.getContextPath()%>/board/insertReplyAjax"
 			, type: "post"
+			//, async: 
 			, contentType:"multipart/form-data" // 들고가는 데이터에 타입을 지정
 			, data: formData   // QueryString // js object
 			, dataType:"json"   // success에 들어오는 데이터가 json 모양일것이고 이것을 js object 로 변형해서 result에 실어줌.
