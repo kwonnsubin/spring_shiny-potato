@@ -11,6 +11,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.mapping.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -26,7 +28,10 @@ public class FileUtil {
 	@Value("${local.repository}")
 	private String UPLOAD_FOLDER; // final static 빼준다.
 	
-	
+//	@Autowired
+//	private Environment env;
+
+//	@Bean
 	public List<Map<String, String>> saveFileList(MultipartHttpServletRequest multiReq, HttpServletRequest request, String addedPath) throws Exception{
 		List<Map<String, String>> result = new ArrayList<Map<String,String>>();
 		

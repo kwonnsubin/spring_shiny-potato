@@ -22,6 +22,31 @@
 	<img src="${cpath }${uploadpath}${board.boardRenameFilename}">
 	</div>
 	
+	<!-- 첨부 파일들 모두 display -->
+	<div>
+	<!--
+	<c:forEach varStatus="vs" items="${boardFileList }" var="boardfile">
+		<p>${boardfile.originalFilename}</p>
+		<img src="${cpath }${uploadpath}${boardfile.renameFilename}">
+	</c:forEach>
+	  -->
+	
+	
+	<c:forEach varStatus="vs" items="${board.boardFileList }" var="boardfile">
+		<p>${boardfile.originalFilename}</p>
+		<img src="${cpath }${uploadpath}${boardfile.renameFilename}">
+	</c:forEach>
+		<img src="${cpath }${uploadpath}/2번이미지">
+		<img src="${cpath }${uploadpath}/3번이미지">
+		<img src="${cpath }${uploadpath}/4번이미지">
+	</div>
+	
+	
+	
+	
+	
+	<!-- 답글작성 -->
+	<hr>
 	<form id="frmReply" enctype="multipart/form-data">
 	<fieldset>
 	 	<legend>답글작성</legend>
@@ -69,17 +94,19 @@
 		//console.log($("#frmReply").serialize());
 		//file포함되어있는 경우 serialize()로 데이터 전달 할 수 없음. contentType:"multipart/form-data" 적용안됨.
 		let formdata = new FormData();
-		formdata.append("boardTitle", $("[name=boardTitle]".val()) ); // key, value
-		formdata.append("boardContent", $("[name=boardContent]".val()) ); // key, value
-		formdata.append("report", $("[name=report]".files[0]) ); // key, value
-		formdata.append("boardNum", $("[name=boardNum]".val()) ); // key, value
+		formdata.append("boardTitle", $("[name=boardTitle]").val());
+		formdata.append("boardContent", $("[name=boardContent]").val());
+		formdata.append("report",  $("[name=report]")[0].files[0]);
+		formdata.append("boardNum", $("[name=boardNum]").val());
+		console.log(formdata);
 		
 		$.ajax({ 
-			url: "<%=request.getContextPath()%>/board/insertReplyAjax"
+			url: "${pageContext.request.contextPath}/board/insertReplyAjax"
 			, type: "post"
 			//, async: 
-			, contentType:"multipart/form-data" // 들고가는 데이터에 타입을 지정
-			, data: formData   // QueryString // js object
+			, contentType: false
+			, processData: false
+			, data: formdata  // QueryString // js object
 			, dataType:"json"   // success에 들어오는 데이터가 json 모양일것이고 이것을 js object 로 변형해서 result에 실어줌.
 			, success: function(result){
 				console.log(result);

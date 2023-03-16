@@ -2,6 +2,7 @@ package kh.spring.s02.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,9 @@ public class BoardController {
 	private final static int PAGE_LIMIT = 3; // 한 화면에 출력할 게시판 페이지 수
 
 	
-	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView viewListBoard( ModelAndView mv) {
+	@RequestMapping(value = "/list")
+//	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView viewListBoard( ModelAndView mv, HttpServletRequest req) {
 		
 		// TODO
 		// 검색단어는 제목, 내용, 작성자에서 포함되어있으면 찾기
@@ -57,9 +58,17 @@ public class BoardController {
 //		String searchWord = "";
 		String searchWord = "답";
 		
+		try {
+			req.setCharacterEncoding("UTF-8");
+			searchWord = req.getParameter("searchWord");
+			System.out.println("한글 확인: "+ searchWord);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		// TODO
 		int currentPage = 1; // 현재 페이지
-		int totalCnt = service.selectOneCount(); // 총 글 갯수
+		int totalCnt = service.selectOneCount(searchWord); // 총 글 갯수
 		int totalPage = (totalCnt%BOARD_LIMIT==0)? // 총 페이지 수 -> 나눠서 나머지가 0이면
 				(totalCnt/BOARD_LIMIT) : 
 				(totalCnt/BOARD_LIMIT) + 1; // 0이 아니면 + 1Page
@@ -119,16 +128,16 @@ public class BoardController {
 	
 	// URL
 	// 1. /board/read?boardNum=27&replyPage=3
-		// location.href="board/read?boardNum=${elboardnum}&replyPage=${elreplyPage}"
-	// 2. /board/27/3
-		// location.href="board/read/27/3"
+		// location.href="board/read?boardNum=${elboardnum}&replyPage=${elreplypage}"
+	// 2. /board/read/27/3
+		// location.href="board/read/${elboardnum}/${elreplypage}"
 	
 	// 글 상세 읽기 화면
-	@GetMapping("/read/{boardNum}/{replyPage}") // {boardNum}에서 꺼낸 값을 인지해야 한다.
+	@GetMapping("/read/{boardNum}") // {boardNum}에서 꺼낸 값을 인지해야 한다.
 	public ModelAndView viewReadBoard(
 			ModelAndView mv
-			, @PathVariable int replyPage // 
-			, @PathVariable int boardNum // 
+//			, @PathVariable int replyPage
+			, @PathVariable int boardNum
 			//, @RequestParam("boardNum") int boardNum
 			) {
 		//TODO
@@ -212,21 +221,24 @@ public class BoardController {
 	@ResponseBody
 	public String insertReplyAjax(
 			BoardVo vo
-			, MultipartFile report // name을 같게 작성해주면 requestParam을 따로 안적어줘도 데이터가 넘어온다.
+			, @RequestParam("report") MultipartFile report // name을 같게 작성해주면 requestParam을 따로 안적어줘도 데이터가 넘어온다.
+			, HttpServletRequest request
 			) {
-		if(report !=null) {
+		Map<String, String> filePath = null;
+		if(report != null) {
 			System.out.println(report.getOriginalFilename());
+			try {
+				filePath = new FileUtil().saveFile(report, request, null);
+				vo.setBoardOriginalFilename(filePath.get("original"));
+				vo.setBoardRenameFilename(filePath.get("rename"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else {
-			System.out.println("파일없음");
+			System.out.println("########파일 없음#########");
 		}
-		System.out.println("######");
 		System.out.println(vo);
-//		int boardNum = 6;
-//		vo.setBoardNum(boardNum);
-//		
-//		vo.setBoardContent("임시6답내용");
-//		vo.setBoardTitle("임시6답제목");
-		vo.setBoardWriter("user22");
+		vo.setBoardWriter("user22");  // TODO
 		
 		// 답글 작성
 		service.insert(vo);
@@ -236,6 +248,7 @@ public class BoardController {
 		
 		return new Gson().toJson(replyList);
 	}
+
 	
 //	@RequestMapping(value = "/boardinsert")
 	@RequestMapping("/test")

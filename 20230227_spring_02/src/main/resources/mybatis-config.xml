@@ -11,10 +11,12 @@
 		<typeAlias type="kh.spring.s02.member.model.vo.MemberVo" alias="mvo"/>
 		<!-- <typeAlias type="kh.spring.s02.board.model.vo.MemberVo" alias="mvo"/> -->
 	</typeAliases>
+<!--
 	<mappers>
 	 	<mapper resource="mappers/board-mapper.xml"/>
 	 	<mapper resource="mappers/member-mapper.xml"/>
 	</mappers>
+ -->
 	
 <!-- 	
 	<environments default="development">

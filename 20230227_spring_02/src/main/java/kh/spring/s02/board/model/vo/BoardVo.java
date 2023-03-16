@@ -1,6 +1,7 @@
 package kh.spring.s02.board.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -24,11 +25,15 @@ public class BoardVo {
 	private String boardContent;
 	private String boardOriginalFilename;
 	private String boardRenameFilename;
+	private BoardFileVo boardMainFile;
+	
 	private Date boardDate;
 	private int boardLevel;
 	private int boardRef;
 	private int boardReplySeq;
 	private int boardReadcount;
+
+	private List<BoardFileVo> boardFileList;
 	
 //	@Override
 //	public String toString() {
