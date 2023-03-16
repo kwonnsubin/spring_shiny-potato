@@ -33,7 +33,8 @@ public class BoardDao {
 		return aa.delete("boardns.deleteid", boardNum);		
 	}
 	public BoardVo selectOne(int boardNum /* PK */) {
-		return aa.selectOne("boardns.selectOneid", boardNum);		
+		//return aa.selectOne("boardns.selectOneid", boardNum);		
+		return aa.selectOne("boardns.selectOneidCollection", boardNum);			
 	}
 	public List<BoardVo> selectList() {
 		return aa.selectList("boardns.selectListid");		

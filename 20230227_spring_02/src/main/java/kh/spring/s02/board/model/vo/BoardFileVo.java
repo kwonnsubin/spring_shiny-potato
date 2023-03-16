@@ -1,14 +1,16 @@
 package kh.spring.s02.board.model.vo;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+@Component
 @Getter
 @Setter
 @ToString
 public class BoardFileVo {
-	private int boardNum;
 	private String originalFilename;
 	private String renameFilename;
 }

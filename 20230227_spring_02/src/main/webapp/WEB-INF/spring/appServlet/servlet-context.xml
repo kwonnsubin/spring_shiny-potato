@@ -26,8 +26,12 @@
 	
 	<context:component-scan base-package="kh.spring.s02" />
 	
-	<!-- 
-	@Baen
+	<!--
+	@Bean 
+	@Component
+	 - @Service
+	 - @Repository
+	 - @Controller
 	 -->
 	
 	<!-- file upload : bean 생성 -->

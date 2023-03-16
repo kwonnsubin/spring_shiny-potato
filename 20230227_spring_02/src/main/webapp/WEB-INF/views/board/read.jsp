@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cpath" value="${pageContext.request.contextPath}"/>
+<!-- window -->
+<!-- <c:set var="uploadpath" value="/resources/uploadfiles/"/> -->
+
+<!-- mac -->
 <c:set var="uploadpath" value="/resources/uploadfiles/"/>
 <!DOCTYPE html>
 <html>
@@ -13,14 +17,17 @@
 <body>
 	<h1>${board.boardNum } 게시글</h1>
 	<div>
-	<p> ${board.boardTitle }</p>
+		<p> ${board.boardTitle }</p>
 	</div>
 	<div>
-	${board.boardContent }
+		${board.boardContent }
 	</div>
 	<div>
-	<img src="${cpath }${uploadpath}${board.boardRenameFilename}">
+		<p>메인이미지</p>
+		<%-- <img src="${cpath }${uploadpath}${board.boardRenameFilename}"> --%>
+		 <img src="<%=request.getContextPath()%>${uploadpath}${board.boardRenameFilename}">
 	</div>
+	<hr>
 	
 	<!-- 첨부 파일들 모두 display -->
 	<div>
@@ -33,12 +40,12 @@
 	
 	
 	<c:forEach varStatus="vs" items="${board.boardFileList }" var="boardfile">
-		<p>${boardfile.originalFilename}</p>
-		<img src="${cpath }${uploadpath}${boardfile.renameFilename}">
+		<div>
+			<p>${vs.count}번째 ${boardfile.originalFilename}</p>
+			<img src="${cpath }${uploadpath}${boardfile.renameFilename}">
+			<hr>
+		</div>
 	</c:forEach>
-		<img src="${cpath }${uploadpath}/2번이미지">
-		<img src="${cpath }${uploadpath}/3번이미지">
-		<img src="${cpath }${uploadpath}/4번이미지">
 	</div>
 	
 	

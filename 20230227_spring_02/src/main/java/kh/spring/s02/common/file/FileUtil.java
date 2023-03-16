@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Component("fileUtil") // Bean과 같다.
+//@Component
 @PropertySource("classpath:properties/khs2.properties")
 //@Service
 public class FileUtil {
@@ -79,8 +80,13 @@ public class FileUtil {
 			// UUID
 			//String renameByUUID = UUID.randomUUID().toString() + "_"+orginalFileName;
 			
-			renameFilePath = savePath + "\\" + renameByTime;
-			multi.transferTo(new File(savePath + "\\" + renameByTime));
+//			windows
+//			renameFilePath = savePath + "\\" + renameByTime;
+//			multi.transferTo(new File(savePath + "\\" + renameByTime));
+			
+//			mac
+			renameFilePath = savePath + "//" + renameByTime;
+			multi.transferTo(new File(savePath + "//" + renameByTime));
 			
 			result.put("original", orginalFileName);
 			result.put("rename", renameByTime);

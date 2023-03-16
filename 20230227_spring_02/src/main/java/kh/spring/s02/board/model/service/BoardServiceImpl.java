@@ -11,7 +11,6 @@ import kh.spring.s02.board.model.dao.BoardDao;
 import kh.spring.s02.board.model.vo.BoardVo;
 
 @Service
-@Transactional
 public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
@@ -25,6 +24,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
+	@Transactional
 	public int insert(BoardVo vo) {
 		if(vo.getBoardNum() != 0) {
 			// 답글   (원글은 0)

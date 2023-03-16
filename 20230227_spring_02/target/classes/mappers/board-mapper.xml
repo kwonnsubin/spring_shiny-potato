@@ -103,6 +103,12 @@
 <!-- <select id="selectOneid" resultType="kh.spring.s02.board.model.vo.BoardVo"> -->
 	select * from board where board_Num = #{boardNum}
 </select>
+<select id="selectOneidCollection" resultMap="bvoCollectionMap"> 
+	select * 
+		from board
+			join board_file using(board_Num)	
+	 where board_Num = #{boardNum}
+</select>
 <select id="selectListid" resultMap="bvoMap"> 
 <!-- <select id="selectListid" resultType="bvo"> -->
 select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT 
