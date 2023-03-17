@@ -81,12 +81,12 @@ public class FileUtil {
 			//String renameByUUID = UUID.randomUUID().toString() + "_"+orginalFileName;
 			
 //			windows
-//			renameFilePath = savePath + "\\" + renameByTime;
-//			multi.transferTo(new File(savePath + "\\" + renameByTime));
+			renameFilePath = savePath + "\\" + renameByTime;
+			multi.transferTo(new File(savePath + "\\" + renameByTime));
 			
 //			mac
-			renameFilePath = savePath + "//" + renameByTime;
-			multi.transferTo(new File(savePath + "//" + renameByTime));
+//			renameFilePath = savePath + "//" + renameByTime;
+//			multi.transferTo(new File(savePath + "//" + renameByTime));
 			
 			result.put("original", orginalFileName);
 			result.put("rename", renameByTime);

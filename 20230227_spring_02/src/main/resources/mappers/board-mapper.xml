@@ -106,7 +106,7 @@
 <select id="selectOneidCollection" resultMap="bvoCollectionMap"> 
 	select * 
 		from board
-			join board_file using(board_Num)	
+			left outer join board_file using(board_Num)
 	 where board_Num = #{boardNum}
 </select>
 <select id="selectListid" resultMap="bvoMap"> 
