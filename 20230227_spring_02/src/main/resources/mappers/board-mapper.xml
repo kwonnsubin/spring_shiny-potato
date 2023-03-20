@@ -63,6 +63,15 @@
 		, DEFAULT
 	)
 </insert>
+<select id="getSeqBoardNum" resultType="_int">
+	CREATE SEQ_BOARD_NUM.nextval from dual
+</select>
+
+<insert id="insertFile" parameterType="bvo">
+	insert into board_file values( #{}, #{boardOriginalFilename}, #{boardRenameFilename})
+</insert>
+
+
 <update id="updateid">
 	update board set
 		board_Title = #{boardTitle}

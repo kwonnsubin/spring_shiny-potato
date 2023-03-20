@@ -20,6 +20,16 @@ public class BoardDao {
 	public int insert(BoardVo vo) {
 		return aa.insert("boardns.insertid", vo);		
 	}
+	
+	public int insertFile(BoardVo vo) {
+		return aa.insert("boardns.insertFile", vo);
+		
+	}
+	
+	public int getSeqBoardNum() {
+		return aa.selectOne("boardns.getSeqBoardNum");
+	}
+	
 	public int update(BoardVo vo) {
 		return aa.update("boardns.updateid", vo);		
 	}
@@ -78,4 +88,5 @@ public class BoardDao {
 	 * public BoardVo selectList2() { return
 	 * sqlSession.selectOne("boardns.selectListid2"); }
 	 */
+
 }
